@@ -5,29 +5,13 @@ import (
 	"flag"
 	"os"
 	"log"
-    "io/ioutil"
-    "gopkg.in/yaml.v2"
+    "github.com/gkiki90/steplib-cli/pathutil"
 )
 
 type Command struct {
 	Name  string
 	Usage string
 	Run   func() error
-}
-
-// Parsing step.yml (https://github.com/steplib/steplib/blob/master/docs/step_format.md)
-type StepInput struct {
-	MappedTo string `yaml:"mapped_to"`
-	Title string 
-	Description string 
-	ValueOptions []string 
-	Value string
-	IsExpand string `yaml:"is_expand"`
-	IsRequired string `yaml:"is_required"`
-}
-
-type StepConfig struct {
-	Inputs []StepInput
 }
 
 var (
@@ -39,6 +23,7 @@ var (
 		},
 	}
 )
+
 
 func usage() {
 	fmt.Println("Called usage")
@@ -52,19 +37,14 @@ func usage() {
 }
 
 func doInitCommand() error {
-	source, err := ioutil.ReadFile("step.yml")
-	if err != nil {
-		return err;
+	ymlPath := "step.yml"
+
+	stepYMLInputStruct, error := pathutil.ReadYMLInputListFromFile(ymlPath)
+	if error != nil {
+		return error
 	}
 
-	var stepConfig StepConfig
-
-	err = yaml.Unmarshal(source, &stepConfig)
-	if err != nil {
-        panic(err)
-    }
-
-    fmt.Printf("StepConfig: %s\n", stepConfig)
+    fmt.Printf("StepConfig: %s\n", stepYMLInputStruct)
 
 	return nil
 }
