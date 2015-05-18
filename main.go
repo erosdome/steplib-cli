@@ -5,7 +5,7 @@ import (
 	"flag"
 	"os"
 	"log"
-    "github.com/gkiki90/steplib-cli/pathutil"
+    "github.com/gkiki90/steplib-cli/inputlist"
 )
 
 type Command struct {
@@ -18,7 +18,7 @@ var (
 	availableCommands = []Command{
 		Command{
 			Name:  "init",
-			Usage: "init - creates a deplist.json file in the current folder",
+			Usage: "init - creates an inputlist.json file in the current folder",
 			Run:   doInitCommand,
 		},
 	}
@@ -39,12 +39,16 @@ func usage() {
 func doInitCommand() error {
 	ymlPath := "step.yml"
 
-	stepYMLInputStruct, error := pathutil.ReadYMLInputListFromFile(ymlPath)
+	stepYMLInputStruct, error := inputlist.ReadYMLInputListFromFile(ymlPath)
 	if error != nil {
 		return error
 	}
 
-    fmt.Printf("StepConfig: %s\n", stepYMLInputStruct)
+    err := inputlist.WriteInputListToFile("./inputlist.json", stepYMLInputStruct)
+	if err != nil {
+		return err
+	}
+	fmt.Println("inputlist.json file saved")
 
 	return nil
 }
