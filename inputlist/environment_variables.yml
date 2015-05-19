@@ -1,0 +1,154 @@
+#
+# StepLib expects every input for a Step as an Environment Variable.
+#
+# This is the current list of supported Environment Variables:
+#
+
+
+# Home
+- 
+    title: "Home directory"
+    mapped_to: HOME
+    description: ""
+    value: ""
+
+# Bitrise Environment Variables
+- 
+    title: "Bitrise source directory"
+    mapped_to: BITRISE_SOURCE_DIR
+    description: ""
+    value: "${HOME}/git"
+- 
+    title: "Bitrise step directory"
+    mapped_to: BITRISE_STEP_DIR
+    description: ""
+    value: "${HOME}/stepdir"
+- 
+    title: "Bitrise deployment directory"
+    mapped_to: BITRISE_DEPLOY_DIR
+    description: ""
+    value: "${HOME}/deploy"
+- 
+    title: "Bitrise library directory"
+    mapped_to: BITRISE_LIBRARY_DIR
+    description: ""
+    value: "${HOME}/Library/MobileDevice/Provisioning Profiles"
+- 
+    title: "Bitrise profile directory"
+    mapped_to: BITRISE_PROFILE_DIR
+    description: ""
+    value: "${HOME}/profiles"
+- 
+    title: "Bitrise sym directory"
+    mapped_to: BITRISE_SYM_ROOT
+    description: ""
+    value: "${HOME}/build"
+- 
+    title: "Bitrise obj directory"
+    mapped_to: BITRISE_OBJ_ROOT
+    description: ""
+    value: "${HOME}/bin"
+- 
+    title: "Bitrise keychain directory"
+    mapped_to: BITRISE_KEYCHAIN
+    description: ""
+    value: "bitrise.keychain"
+- 
+    title: "Bitrise folder path"
+    mapped_to: BITRISE_FOLDER_PATH
+    description: ""
+    value: "${HOME}/bitrise"
+- 
+    title: "Bitrise step data folder path"
+    mapped_to: BITRISE_STEP_DATA_FOLDER_PATH
+    description: ""
+    value: "${BITRISE_FOLDER_PATH}/stepdata"
+- 
+    title: "Bitrise step formatted output file path"
+    mapped_to: BITRISE_STEP_FORMATTED_OUTPUT_FILE_PATH
+    description: ""
+    value: "${BITRISE_STEP_DATA_FOLDER_PATH}/stepoutput"
+
+## Tools
+- 
+    title: "Bitrise tools folder path"
+    mapped_to: BITRISE_TOOLS_FOLDER_PATH
+    description: ""
+    value: "${BITRISE_FOLDER_PATH}/tools"
+- 
+    title: "Bitrise tools cmd bridge path"
+    mapped_to: BITRISE_TOOLS_CMD_BRIDGE_PATH
+    description: ""
+    value: "${BITRISE_TOOLS_FOLDER_PATH}/cmd-bridge/bin/osx/cmd-bridge"
+
+# StepLib Environment Variables
+- 
+    title: "Steplib build status"
+    mapped_to: STEPLIB_BUILD_STATUS
+    description: |
+        Defined as `1` if there was an error in a previous Step, undefined or `0` if there was no error so far.
+    value_options: ["1", "0"]
+    value: "0"
+- 
+    title: "Steplib source directory"
+    mapped_to: STEPLIB_SOURCE_DIR
+    description: |
+        Full dir path of the Git repository.
+    value: "${HOME}/git"
+- 
+    title: "Steplib step directory"
+    mapped_to: STEPLIB_STEP_DIR
+    description: ""
+    value: "${HOME}/stepdir"
+- 
+    title: "Steplib deployment directory"
+    mapped_to: STEPLIB_DEPLOY_DIR
+    description: ""
+    value: "${HOME}/deploy"
+- 
+    title: "Steplib folder path"
+    mapped_to: STEPLIB_FOLDER_PATH
+    description: ""
+    value: "${HOME}/steplib"
+- 
+    title: "Steplib step data folder path"
+    mapped_to: STEPLIB_STEP_DATA_FOLDER_PATH
+    description: ""
+    value: "${STEPLIB_FOLDER_PATH}/stepdata"
+- 
+    title: "Steplib step formatted output file path"
+    mapped_to: STEPLIB_STEP_FORMATTED_OUTPUT_FILE_PATH
+    description: ""
+    value: "${STEPLIB_STEP_DATA_FOLDER_PATH}/stepoutput"
+
+# OS X specific
+- 
+    title: "Steplib osx library directory"
+    mapped_to: STEPLIB_OSX_LIBRARY_DIR
+    description: ""
+    value: "${HOME}/Library/MobileDevice/Provisioning Profiles"
+- 
+    title: "Steplib osx profile directory"
+    mapped_to: STEPLIB_OSX_PROFILE_DIR
+    description: ""
+    value: "${HOME}/profiles"
+- 
+    title: "Steplib osx sym root"
+    mapped_to: STEPLIB_OSX_SYM_ROOT
+    description: ""
+    value: "${HOME}/build"
+- 
+    title: "Steplib osx obj root"
+    mapped_to: STEPLIB_OSX_OBJ_ROOT
+    description: ""
+    value: "${HOME}/bin"
+- 
+    title: "Steplib osx login keychain name"
+    mapped_to: STEPLIB_OSX_LOGIN_KEYCHAIN_NAME
+    description: ""
+    value: "login.keychain"
+- 
+    title: "Steplib osx login keychain password"
+    mapped_to: STEPLIB_OSX_LOGIN_KEYCHAIN_PASSWORD
+    description: ""
+    value: "vagrant"
