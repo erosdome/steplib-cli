@@ -9,20 +9,6 @@ import (
 	"os"
 )
 
-type StepJSONInputStruct struct {
-	MappedTo 		string 		`json:"mapped_to"`
-	Title 			string 		`json:"title"`
-	Description 	string 		`json:"description"`
-	ValueOptions 	[]string 	`json:"value_options"`
-	Value 			string		`json:"value"`
-	IsExpand 		string 		`json:"is_expand"`
-	IsRequired 		string 		`json:"is_required"`
-}
-
-type StepJSONInputsStruct struct {
-	Inputs []StepJSONInputStruct `json:"inputs"`
-}
-
 type StepYMLInputStruct struct {
 	MappedTo 		string 		`yaml:"mapped_to"`
 	Title 			string 		`yaml:"title"`
