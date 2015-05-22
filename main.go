@@ -1,11 +1,13 @@
 package main
 
 import (
+	"github.com/gkiki90/steplib-cli/pathutil"
+	"github.com/gkiki90/steplib-cli/inputlist"
 	"fmt"
 	"flag"
 	"os"
 	"log"
-    "github.com/gkiki90/steplib-cli/inputlist"
+	"errors"
 )
 
 type Command struct {
@@ -20,6 +22,11 @@ var (
 			Name:  "init",
 			Usage: "init - creates an inputlist.json file in the current folder",
 			Run:   doInitCommand,
+		},
+		Command{
+			Name:  "run",
+			Usage: "run - perform step with given inputlist.json",
+			Run:   doRunCommand,
 		},
 	}
 )
@@ -39,7 +46,7 @@ func usage() {
 func doInitCommand() error {
 	ymlPath := "step.yml"
 
-	stepYMLInputStruct, error := inputlist.ReadYMLInputListFromFile(ymlPath)
+	stepYMLInputStruct, error := inputlist.ReadSetpInputListYMLFromFile(ymlPath)
 	if error != nil {
 		return error
 	}
@@ -49,6 +56,20 @@ func doInitCommand() error {
 		return err
 	}
 	fmt.Println("inputlist.json file saved")
+
+	return nil
+}
+
+func doRunCommand() error {
+	fmt.Println("run")
+
+	isExists, err := pathutil.IsPathExists("./inputlist.json")
+	if err != nil {
+		return err
+	}
+	if isExists == false {
+		return errors.New("Inputlist file dos not exists!")
+	}
 
 	return nil
 }

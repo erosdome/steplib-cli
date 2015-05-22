@@ -1,15 +1,15 @@
 package inputlist
 
 import (
-	"gopkg.in/yaml.v2"
-	"io/ioutil"
 	"github.com/gkiki90/steplib-cli/pathutil"
 	"encoding/json"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 	"errors"
 	"os"
 )
 
-type StepYMLInputStruct struct {
+type StepInputYMLStruct struct {
 	MappedTo 		string 		`yaml:"mapped_to"`
 	Title 			string 		`yaml:"title"`
 	Description 	string 		`yaml:"description"`
@@ -19,25 +19,24 @@ type StepYMLInputStruct struct {
 	IsRequired 		string 		`yaml:"is_required"`
 }
 
-type StepYMLInputsStruct struct {
-	Inputs []StepYMLInputStruct `yaml:"inputs"`
+type StepInputsYMLStruct struct {
+	Inputs []StepInputYMLStruct `yaml:"inputs"`
 }
 
-
-func ReadYMLInputListFromFile(fpath string) (StepYMLInputsStruct, error) {
+func ReadSetpInputListYMLFromFile(fpath string) (StepInputsYMLStruct, error) {
 	source, err := ioutil.ReadFile(fpath)
 	if err != nil {
-		return StepYMLInputsStruct{}, err;
+		return StepInputsYMLStruct{}, err;
 	}
 
-	var stepYMLInputStruct StepYMLInputsStruct
+	var stepYMLInputStruct StepInputsYMLStruct
 
 	err = yaml.Unmarshal(source, &stepYMLInputStruct)
 
     return stepYMLInputStruct, err
 }
 
-func generateFormattedJSONForInputList(inputList StepYMLInputsStruct) ([]byte, error) {
+func generateFormattedJSONForInputList(inputList StepInputsYMLStruct) ([]byte, error) {
 	jsonContBytes, err := json.MarshalIndent(inputList, "", "\t")
 	if err != nil {
 		return []byte{}, err
@@ -45,7 +44,7 @@ func generateFormattedJSONForInputList(inputList StepYMLInputsStruct) ([]byte, e
 	return jsonContBytes, nil
 }
 
-func WriteInputListToFile(fpath string, inputList StepYMLInputsStruct) error {
+func WriteInputListToFile(fpath string, inputList StepInputsYMLStruct) error {
 	if fpath == "" {
 		return errors.New("No path provided")
 	}
@@ -55,7 +54,7 @@ func WriteInputListToFile(fpath string, inputList StepYMLInputsStruct) error {
 		return err
 	}
 	if isExists {
-		//return errors.New("Inputlist file already exists!")
+		// return errors.New("Inputlist file already exists!")
 	}
 
 	file, err := os.Create(fpath)
@@ -76,3 +75,6 @@ func WriteInputListToFile(fpath string, inputList StepYMLInputsStruct) error {
 
 	return nil
 }
+
+
+
