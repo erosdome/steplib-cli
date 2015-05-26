@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/gkiki90/steplib-cli/pathutil"
-	"github.com/gkiki90/steplib-cli/inputlist"
+	"github.com/gkiki90/stepman/pathutil"
+	"github.com/gkiki90/stepman/inputlist"
 	"fmt"
 	"flag"
 	"os"
@@ -13,7 +13,13 @@ import (
 type Command struct {
 	Name  string
 	Usage string
-	Run   func() error
+	Arguments []Argument
+	Run   func(params[] string) error
+}
+
+type Argument struct {
+	Name string
+	Usage string
 }
 
 var (
@@ -21,12 +27,25 @@ var (
 		Command{
 			Name:  "init",
 			Usage: "init - creates an inputlist.json file in the current folder",
+			Arguments: nil,
 			Run:   doInitCommand,
 		},
 		Command{
 			Name:  "run",
 			Usage: "run - perform step with given inputlist.json",
+			Arguments: nil,
 			Run:   doRunCommand,
+		},
+		Command{
+			Name:  "convert",
+			Usage: "convert - convert specified json/yml to yml/json",
+			Arguments: []Argument{
+				Argument{
+					Name: "-step",
+					Usage: "-step - methods on step",
+				},
+			},
+			Run:   doConvertCommand,
 		},
 	}
 )
@@ -43,7 +62,7 @@ func usage() {
 	}
 }
 
-func doInitCommand() error {
+func doInitCommand(params[] string) error {
 	ymlPath := "step.yml"
 
 	stepYMLInputStruct, error := inputlist.ReadSetpInputListYMLFromFile(ymlPath)
@@ -60,9 +79,7 @@ func doInitCommand() error {
 	return nil
 }
 
-func doRunCommand() error {
-	fmt.Println("run")
-
+func doRunCommand(params[] string) error {
 	isExists, err := pathutil.IsPathExists("./inputlist.json")
 	if err != nil {
 		return err
@@ -71,6 +88,11 @@ func doRunCommand() error {
 		return errors.New("Inputlist file dos not exists!")
 	}
 
+	return nil
+}
+
+func doConvertCommand(params[] string) error {
+	fmt.Println(params)
 	return nil
 }
 
@@ -89,9 +111,15 @@ func main() {
 
 	theCommandName := args[0]
 
+	var theParams []string
+
+	if len(args) > 1 {
+		theParams = args[1:len(args)]
+	}
+
 	for _, cmd := range availableCommands {
 		if cmd.Name == theCommandName {
-			err := cmd.Run()
+			err := cmd.Run(theParams)
 			if err != nil {
 				log.Fatalln(err)
 			}

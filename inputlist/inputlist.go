@@ -1,7 +1,8 @@
 package inputlist
 
 import (
-	"github.com/gkiki90/steplib-cli/pathutil"
+	"github.com/gkiki90/stepman/steputil"
+	"github.com/gkiki90/stepman/pathutil"
 	"encoding/json"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -9,34 +10,20 @@ import (
 	"os"
 )
 
-type StepInputYMLStruct struct {
-	MappedTo 		string 		`yaml:"mapped_to"`
-	Title 			string 		`yaml:"title"`
-	Description 	string 		`yaml:"description"`
-	ValueOptions 	[]string 	`yaml:"value_options"`
-	Value 			string		`yaml:"value"`
-	IsExpand 		string 		`yaml:"is_expand"`
-	IsRequired 		string 		`yaml:"is_required"`
-}
-
-type StepInputsYMLStruct struct {
-	Inputs []StepInputYMLStruct `yaml:"inputs"`
-}
-
-func ReadSetpInputListYMLFromFile(fpath string) (StepInputsYMLStruct, error) {
+func ReadSetpInputListYMLFromFile(fpath string) (steputil.StepInputsYMLStruct, error) {
 	source, err := ioutil.ReadFile(fpath)
 	if err != nil {
-		return StepInputsYMLStruct{}, err;
+		return steputil.StepInputsYMLStruct{}, err;
 	}
 
-	var stepYMLInputStruct StepInputsYMLStruct
+	var stepYMLInputStruct steputil.StepInputsYMLStruct
 
 	err = yaml.Unmarshal(source, &stepYMLInputStruct)
 
     return stepYMLInputStruct, err
 }
 
-func generateFormattedJSONForInputList(inputList StepInputsYMLStruct) ([]byte, error) {
+func generateFormattedJSONForInputList(inputList steputil.StepInputsYMLStruct) ([]byte, error) {
 	jsonContBytes, err := json.MarshalIndent(inputList, "", "\t")
 	if err != nil {
 		return []byte{}, err
@@ -44,7 +31,7 @@ func generateFormattedJSONForInputList(inputList StepInputsYMLStruct) ([]byte, e
 	return jsonContBytes, nil
 }
 
-func WriteInputListToFile(fpath string, inputList StepInputsYMLStruct) error {
+func WriteInputListToFile(fpath string, inputList steputil.StepInputsYMLStruct) error {
 	if fpath == "" {
 		return errors.New("No path provided")
 	}
