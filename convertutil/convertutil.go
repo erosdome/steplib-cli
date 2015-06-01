@@ -1,7 +1,7 @@
 package convertutil
 
 import (
-	"github.com/gkiki90/stepman/steputil"
+	"github.com/erosdome/steplib-cli/steputil"
 )
 
 func Convert() {

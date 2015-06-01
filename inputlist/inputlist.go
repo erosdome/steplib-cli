@@ -1,8 +1,8 @@
 package inputlist
 
 import (
-	"github.com/gkiki90/stepman/steputil"
-	"github.com/gkiki90/stepman/pathutil"
+	"github.com/erosdome/steplib-cli/steputil"
+	"github.com/erosdome/steplib-cli/pathutil"
 	"encoding/json"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
