@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/erosdome/steplib-cli/pathutil"
+	"github.com/erosdome/steplib-cli/steputil"
 	"github.com/erosdome/steplib-cli/inputlist"
 	"code.google.com/p/go.crypto/ssh/terminal"
 	"github.com/codegangsta/cli"
@@ -9,6 +10,8 @@ import (
 	"os"
 	"os/exec"
 	"io/ioutil"
+	"encoding/json"
+	"gopkg.in/yaml.v2"
 )
 
 var stdinValue string
@@ -51,6 +54,8 @@ func runCommand(c *cli.Context) {
 func convertCommand(c *cli.Context) {
 	stepPath := c.String("path")
 	stepFormat := c.String("format")
+	sourceName := "step.yml"
+	targetName := "step.json"
 
 	if stepPath == "" {
 		fmt.Println("Error: path not defined")
@@ -62,19 +67,53 @@ func convertCommand(c *cli.Context) {
 		return
 	}
 
-	doesExist, err := pathutil.IsPathExists(stepPath)
+	if stepFormat != "json" {
+		fmt.Println("Invalid target format")
+		return
+	}
+
+	doesExist, err := pathutil.IsPathExists(stepPath+sourceName)
+	if err != nil {
+		fmt.Println("Error: %s", err)
+		return
+	}
+	if doesExist == false {
+		fmt.Println("Error: %s not found", sourceName)
+		return
+	}
+
+	sourceFile, err := ioutil.ReadFile("step.yml")
 	if err != nil {
 		fmt.Println("Error: %s", err)
 		return
 	}
 
-	if doesExist == false {
-		fmt.Println("File does not exist!")
+	var stepYMLStruct steputil.StepYMLStruct
+
+	err = yaml.Unmarshal(sourceFile, &stepYMLStruct)
+
+	if err != nil {
+		fmt.Println("Error: %s", err)
 		return
 	}
 
-	if stepFormat != "json" {
-		fmt.Println("Invalid target format")
+	jsonContBytes, err := json.MarshalIndent(stepYMLStruct, "", "\t")
+
+	if err != nil {
+		fmt.Println("Error: %s", err)
+		return
+	}
+
+	file, err := os.Create(stepPath+targetName)
+	if err != nil {
+		fmt.Println("Error: %s", err)
+		return
+	}
+	defer file.Close()
+
+	_, err = file.Write(jsonContBytes)
+	if err != nil {
+		fmt.Println("Error: %s", err)
 		return
 	}
 

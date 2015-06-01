@@ -18,6 +18,12 @@ type StepInputsYMLStruct struct {
 	Inputs []StepInputYMLStruct `yaml:"inputs"`
 }
 
+type StepYMLStruct struct {
+	Name			string				`yaml:"name"`
+	Description		string				`yaml:"description"`
+	Inputs			[]StepInputYMLStruct	`yaml:"inputs"`
+}
+
 type StepInputJSONStruct struct {
 	MappedTo 		string 		`json:"mapped_to"`
 	Title 			string 		`json:"title"`
